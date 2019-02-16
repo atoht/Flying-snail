@@ -8,42 +8,32 @@
 <title>Sun drying your clothes</title>	
 <%@include file="/WEB-INF/views/common/head.jsp" %>
 <!-- Custom styles for this template -->
-    <link href="resources/bootstrap-3.3.7-dist/justified-nav.css" rel="stylesheet">
+<!--     <link href="resources/bootstrap-3.3.7-dist/justified-nav.css" rel="stylesheet"> -->
 </head>
 <body>
+<%@include file="/WEB-INF/views/common/navbar.jsp" %> 
 <div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span12">
-			<%@include file="/WEB-INF/views/common/navbar.jsp" %>
+	<div class="row">
+	<%@include file="/WEB-INF/views/common/sidebar.jsp" %> 
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<div class="masthead">
+			<nav>
+			 <ul class="nav nav-justified">
+			<li class="active"><a href="#">Home</a></li>
+			<li><a href="#">Projects</a></li>
+			<li><a href="#">Services</a></li>
+			<li><a href="#">Downloads</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Contact</a></li>
+			</ul>
+			</nav>
 		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="span3">
-			<%@include file="/WEB-INF/views/common/sidebar.jsp" %>
+		<div>
+		撒旦发射点发射点
 		</div>
-		<div class="span9">
-<!-- 			<div class="container"> -->
-
-      <!-- The justified navigation menu is meant for single line per list item.
-           Multiple lines will require custom code not provided by Bootstrap. -->
-      <div class="masthead">
-        <h3 class="text-muted">Project name</h3>
-        <nav>
-          <ul class="nav nav-justified">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Projects</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Downloads</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </nav>
-      </div>
-<!--       </div> -->
 		</div>
 	</div>
 </div>
-
 
 
 
