@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%-- <%@ page session="false" %> --%>
 <!doctype html>
@@ -28,9 +30,10 @@
 			</ul>
 			</nav>
 		</div>
-		<div>
-		撒旦发射点发射点
-		</div>
+<!-- 			<div class="container col-md-10"> -->
+			    <spring:message code="language.cn"/>
+			    <spring:message code="language.en"/>
+<!-- 			</div> -->
 		</div>
 	</div>
 </div>
@@ -46,6 +49,8 @@
     <script>window.jQuery || document.write('<script src="resources/jquery.min.js"><\/script>')</script>
     <script src="resources/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="resources/bootstrap-3.3.7-dist/assets/js/ie10-viewport-bug-workaround.js"></script>    
+    <script src="resources/bootstrap-3.3.7-dist/assets/js/ie10-viewport-bug-workaround.js"></script>
+    
+
 </body>
 </html>
