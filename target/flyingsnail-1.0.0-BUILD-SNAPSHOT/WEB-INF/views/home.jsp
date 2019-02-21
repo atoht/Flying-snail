@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%-- <%@ page session="false" %> --%>
 <!doctype html>
 <html>
 <head>
 <title>Sun drying your clothes</title>	
+<link href="resources/bootstrap-table-master/dist/bootstrap-table.min.css" rel="stylesheet">
 <%@include file="/WEB-INF/views/common/head.jsp" %>
 <!-- Custom styles for this template -->
 <!--     <link href="resources/bootstrap-3.3.7-dist/justified-nav.css" rel="stylesheet"> -->
@@ -29,7 +32,15 @@
 			</nav>
 		</div>
 <!-- 			<div class="container col-md-10"> -->
-			    
+	<hr>
+	<div class="row">                                     
+	<c:forEach items="${listImgPath }" var="vr">
+        <div class="col-sm-4 col-md-3">                 
+            <img src="getInputStreamImg/${vr}" class="img-responsive center-block" height="450" width="300" >
+        </div>                  
+	</c:forEach>
+    </div>
+<!-- 	<img src="getInputStreamImg{$}" class="img-responsive center-block" > -->
 <!-- 			</div> -->
 		</div>
 	</div>
@@ -44,7 +55,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="resources/jquery.min.js"><\/script>')</script>
-    <script src="resources/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="resources/bootstrap-4.3.1/dist/js/bootstrap.min.js"></script>
+    <script src="resources/bootstrap-table-master/dist/bootstrap-table.min.js"></script>
+    <script src="resources/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="resources/bootstrap-3.3.7-dist/assets/js/ie10-viewport-bug-workaround.js"></script>
     
