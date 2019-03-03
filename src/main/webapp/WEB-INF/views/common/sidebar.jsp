@@ -6,7 +6,7 @@
 <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
-        <div class="col-sm-3 col-md-2 ">
+        <div class="col-sm-4 col-md-3 col-lg-1">
           <nav class="d-none d-md-block bg-light sidebar">
 	      <div class="sticky-top sidebar-sticky">
 	        <ul class="nav flex-column">

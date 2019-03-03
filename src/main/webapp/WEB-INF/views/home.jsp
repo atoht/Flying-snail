@@ -100,7 +100,7 @@ box-shadow: 10px 10px 5px #888888;
 <div class="container-fluid">
 	<div class="row ">
 	<%@include file="/WEB-INF/views/common/sidebar.jsp" %> 
-		<div class="col-sm-9 col-md-10 ">
+		<div class="col-sm-8 col-md-9 col-lg-11">
 	<!-- MAIN (Center website) -->
 <div class="main">
 
@@ -118,7 +118,7 @@ box-shadow: 10px 10px 5px #888888;
 </div>
 		<div class="row ">                                     
 		<c:forEach items="${userInfo.listImgPath }" var="vr">
-	        <div class="column nature">
+	        <div id="viewport" class="column nature"  >
 	            <img src="getInputStreamImg/${vr}" class="test rounded img-responsive center-block popover-options" 
 	            data-toggle="popover"  title="<h2>Title</h2>"
 	             style="width:100%"  >
@@ -207,10 +207,34 @@ for (var i = 0; i < btns.length; i++) {
 $(function () { 
 	$(".popover-options").popover({
 		html:true,
-        content:"<img src='resources/images/zimages (5).jpg'>"
+        content:"<img src='resources/images/zimages (5).jpg'>",
+        viewport: {selector: '#viewport', padding: 0} 
 	});
- 
+	$('.popover-options').on('shown.bs.popover', function () {
+		console.info(this.$element);
+		})
+// 	$("#Position").click(function(){getPosition()});
  });
+ function getPosition() {
+	 
+	 var element = this.$element; //如果没有传入参数，则以$element（触发tooltip事件的元素）为准
+console.info(this.$element);
+	 var el = element[0];
+	 var isBody = el.tagName == 'BODY';
+
+	 var elRect = el.getBoundingClientRect();
+	 if (elRect.width == null) {
+	 // width and height are missing in IE8, so compute them manually; see https://github.com/twbs/bootstrap/issues/14093
+	 elRect = $.extend({}, elRect, { width: elRect.right - elRect.left, height: elRect.bottom - elRect.top });
+	 }
+	 var elOffset = isBody ? { top: 0, left: 0 } : $element.offset();
+	 var scroll = { scroll: isBody ? document.documentElement.scrollTop || document.body.scrollTop : $element.scrollTop() };
+	 var outerDims = isBody ? { width: $(window).width(), height: $(window).height() } : null;
+
+// 	return $.extend({}, elRect, scroll, outerDims, elOffset)
+	console.info($.extend({}, elRect, scroll, outerDims, elOffset));
+ }
+ 
  </script>
 </body>
 </html>

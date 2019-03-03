@@ -2,7 +2,7 @@ package com.mycompany.flyingsnail.util;
 
 public enum Constants {
 	
-	IMG_PATH("D:\\imgs\\");
+	IMG_PATH("D:\\imgs");
 	
 	//声明的枚举属性，同时生成getter方法
     private String Address;

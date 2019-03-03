@@ -41,8 +41,6 @@ public class ReadFile {
                 	 userInfo.setImgMap(tempMap);
 //                	 temp.substring(temp.lastIndexOf("."));
                 	 listImgPath.add(str[0]);
-                 } else if (readImg.isDirectory()) {
-                	 readImg(imgPath + imgList[i], userInfo);
                  }
 	         }
 		}

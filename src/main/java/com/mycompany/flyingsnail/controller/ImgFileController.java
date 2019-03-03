@@ -2,15 +2,13 @@ package com.mycompany.flyingsnail.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -21,62 +19,54 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.mycompany.flyingsnail.dto.UserInfo;
+import com.mycompany.flyingsnail.service.CutImageService;
 import com.mycompany.flyingsnail.util.Constants;
 
 @Controller
 public class ImgFileController {
-	
+
 	@Autowired
 	private UserInfo userInfo;
+	@Autowired
+	private CutImageService cutImageService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ImgFileController.class);
 	
-	/*
+	/**
 	 * 上传页面
 	 */
 	@RequestMapping(value = "/updateImg", method = RequestMethod.GET)
 	public String updateImg() {
 		
-		return "updateImg";
+		return "updateImgDialog";
 	}
 	
-	/*
+	/**
 	 * 上传图片到本地
 	 */
 	@RequestMapping(value = "uploadFile", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> uploadFile(Locale locale, Model model, MultipartFile imgFile) {
+	public Map<String, Object> uploadFile(HttpServletRequest request, @RequestParam("imgFile") MultipartFile imgFile, String tailorInfo, String orientation) {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		String oldFileName = imgFile.getOriginalFilename(); // 获取上传文件的原名
-		// 上传图片
-        if (imgFile != null && oldFileName != null && oldFileName.length() > 0) {
-            // 新的图片名称
-            String newFileName =  userInfo.getUsers().getName() + "\\" + UUID.randomUUID() + oldFileName.substring(oldFileName.lastIndexOf("."));
-            
-            // 新图片
-            File newFile = new File(newFileName);
-            // 将内存中的数据写入磁盘
-            try {
-				imgFile.transferTo(newFile);
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            // 将新图片名称返回到前端
-            map.put("success", "完成");
-            map.put("url", newFileName);
-            return map;
-        } else {
-            map.put("error", "图片不合法");
-            return map;
-        }
+		//上传图片到临时文件夹后取出，然后剪裁再上传到用户文件夹
+        if( cutImageService.cutImage(imgFile, tailorInfo, userInfo, orientation)) {
+        	// 将新图片名称返回到前端
+        	map.put("success", "完成");
+//            map.put("url", newTempFileName);
+        	logger.info("图片上传成功");
+        	return map;
+        }else {
+	        map.put("error", "图片不合法");
+	        logger.info("图片上传失败");
+	        return map;
+	    }
 	}
 	
 	/*
@@ -95,7 +85,7 @@ public class ImgFileController {
 	@RequestMapping(value = "getInputStreamImg/{path}", method = RequestMethod.GET)
 	@ResponseBody
 	public String getImg(@PathVariable String path, HttpServletResponse response) {
-		StringBuilder stringBuilder = new StringBuilder(Constants.IMG_PATH.getAddress());
+		StringBuilder stringBuilder = new StringBuilder(Constants.IMG_PATH.getAddress() + "\\");
 		stringBuilder.append(userInfo.getUsers().getName());
 		stringBuilder.append("\\");
 		stringBuilder.append(userInfo.getImgMap().get(path));

@@ -14,9 +14,9 @@
   <link rel="stylesheet" type="text/css" href="resources/bootstrap-4.3.1/dist/css/bootstrap.min.css">
   
   <!-- Custom styles for this template -->
-  <link type="text/css" href="resources/bootstrap-4.3.1/dist/dashboard.css" rel="stylesheet">
+  <link type="text/css" href="resources/bootstrap-4.3.1/dist/starter-template/starter-template.css" rel="stylesheet">
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <link href="resources/bootstrap-3.3.7-dist/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<!--   <link href="resources/bootstrap-3.3.7-dist/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>

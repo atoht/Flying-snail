@@ -46,7 +46,7 @@ public class HomeController {
 		user.setName("atoht");
 		userInfo.setUsers(user);
 //		logger.info("Welcome home! The client locale is {}.", locale);
-		List<String> listImgPath = ReadFile.readImg(Constants.IMG_PATH.getAddress()+ user.getName() + "\\", userInfo);//读取图片文件
+		List<String> listImgPath = ReadFile.readImg(Constants.IMG_PATH.getAddress() + "\\" + user.getName() + "\\", userInfo);//读取图片文件
 		userInfo.setListImgPath(listImgPath);
 		Date date = new Date();
 //		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
