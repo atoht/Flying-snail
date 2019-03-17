@@ -25,6 +25,11 @@
   float: left;
   width: 33.33%;
 }
+.rotate-6 {
+ /*transform: rotate(90deg);原代码*/
+ transform: rotate(270deg);
+}
+
 </style>
 
 </head>
@@ -42,7 +47,7 @@
 <div class="row">
 <div class="col-md-4">
 
-  <img src="resources/images/photo-1542834759-197152b49c42.jpg" id="target" class="rounded img-responsive center-block " style="width:100%"/>
+  <img src="resources/images/photo-1542834759-197152b49c42.jpg" id="target" class="rounded img-responsive center-block " style="width:100%; image-orientation:45deg;"/>
 </div>
 <div class="col-md-6">
   <div style="margin: .8em 0 .5em;">
@@ -72,7 +77,7 @@
 
   <fieldset class="requiresjcrop" style="margin: .5em 0;">
     <legend>Change Image</legend>
-      <input id="file-3" type="file" name="imgFile" data-ref="imgUrl" multiple class="file-loading" />
+      <input id="file-3" type="file" name="imgFile" data-ref="imgUrl" multiple />
   </fieldset>
 </div>
 
@@ -96,12 +101,27 @@
     <script src="resources/tapmodo-Jcrop-1902fbc/js/jquery.Jcrop.min.js"></script>
     <script type="text/javascript" src="resources/bootstrap-fileinput-master/js/fileinput.min.js"></script>
 	<script type="text/javascript" src="resources/bootstrap-fileinput-master/js/locales/zh.js"></script>
+	<script type="text/javascript" src="resources/piexifjs-master/piexif.js"></script>
+	<script type="text/javascript" src="resources/exif-js-master/exif.js"></script>
 <!-- 	<script src="resources/bootstrap-fileinput-master/themes/fas/theme.min.js" type="text/javascript"></script> -->
 
 <script type="text/javascript">
 var tailorInfo = "";
-$(function () { 
-	var jcrop_api = null;
+var jcrop_api = null;
+var orientationInfo = null;
+$(function () {
+	//判断竖横屏幕
+// 	window.addEventListener("orientationchange", function() {
+// 	    // Announce the new orientation number
+// // 	    alert(window.orientation);
+// 	    orientation = window.orientation;
+// 	}, false);
+// 		console.info(orientation);
+// 	if('0' == orientation) {
+// 		console.info(orientation +"00000000000000000000000");
+// // 		$('.jcrop-holder').css( "transform", "rotate(270deg)" );
+// 	}
+	
     var _this = this;
 	var fileUp = new FileUpload();
 	fileUp.Init();
@@ -113,35 +133,57 @@ $(function () {
     });
     $("#file-3").on('change', function (event, data, previewId, index) {
         var img = $('#target');
+        var val = true;
         if (input[0].files && input[0].files[0]) {
-            var reader = new FileReader();
-            reader.readAsDataURL(input[0].files[0]);
-            reader.onload = function (e) {
-                img.removeAttr('src');
-                img.removeAttr("style"); 
-             	img.css( "width", "100%" );
-             	img.removeClass();
-             	img.addClass("rounded img-responsive center-block ");
-                img.attr('src', e.target.result);
-//                 img.setImage(e.target.result);
-                img.Jcrop({
-                    setSelect: [0, 0, 260, 290],
-                    handleSize: 10,
-                    aspectRatio: 9/16,//选框宽高比
-                    bgFade: false,
-                    bgColor: 'black',
-                    bgOpacity: 0.3,
-                    onSelect: updateCords
-                }, function () {
-//                     jcorp = this;
-                    jcrop_api = this;
-                 	jcrop_api.animateTo([0,0,400,300]);
-//                  	jcrop_api.setImage(e.target.result);
-// 					img.attr('src', e.target.result);
-                 	console.log(jcrop_api.tellSelect());
-                 	
-                });
-            };
+//             var temp = reader.readAsBinaryString(input[0].files[0]);
+//             var temp2 = new BinaryFile(temp);
+// 			console.info(temp);
+// 			console.info(temp2);
+// 			console.info(EXIF.readFromBinaryFile(temp));
+//            alert(EXIF.readFromBinaryFile(temp));
+           	var imgOrientation = input[0].files[0];
+           	EXIF.getData(imgOrientation, function() {
+            	//获取图片方向
+           	   var orientation = EXIF.getTag(this, "Orientation");
+           		orientationInfo = orientation;
+// 	           	PixelWidth = EXIF.getTag(this, "PixelXDimension");
+// 	           	PixelHeight = EXIF.getTag(this, "PixelYDimension");
+           	 var allMetaData = EXIF.getAllTags(this);
+           	 console.info(allMetaData);
+	            var reader = new FileReader();
+            	reader.readAsDataURL(input[0].files[0]);
+	            reader.onload = function (e) {
+					            	img.removeAttr('src');
+		                img.removeAttr("style"); 
+		             	img.removeClass();
+// 	            	getAfterEditedImg(this.result, orientation, function (data) {
+		             	img.css( "width", "100%" );
+		             	img.addClass("rounded img-responsive center-block ");
+		                img.attr('src', this.result);
+// 	                });
+		                img.Jcrop({
+		                    setSelect: [0, 0, 260, 290],
+		                    handleSize: 10,
+		                    aspectRatio: 9/16,//选框宽高比
+		                    bgFade: false,
+		                    createDragbars:['n','s','e','w'],
+		                    createBorders:['n','s','e','w'],
+		                    drawBorders: true,
+		                    trackDocument: true,
+		                    bgColor: 'black',
+		                    bgOpacity: 0.3,
+		                    onSelect: updateCords
+		                }, function () {
+		//                     jcorp = this;
+		                    jcrop_api = this;
+		                 	jcrop_api.animateTo([0,0,400,300]);
+		//                  	jcrop_api.setImage(e.target.result);
+		// 					img.attr('src', e.target.result);
+		                 	console.log(jcrop_api.tellSelect());
+		                 	
+		                });
+	            };
+           	});
 //             console.log(Jcrop.tellSelect());
             if (jcrop_api != undefined) {
             	jcrop_api.destroy();
@@ -154,19 +196,49 @@ $(function () {
         
     }
 	
-	//Use the API to find cropping dimensions
-	// Then generate a random selection
-	// This function is used by setSelect and animateTo buttons
-	// Mainly for demonstration purposes
-// 	function getRandom() {
-// 	  var dim = jcrop_api.getBounds();
-// 	  return [
-// 	    Math.round(Math.random() * dim[0]),
-// 	    Math.round(Math.random() * dim[1]),
-// 	    Math.round(Math.random() * dim[0]),
-// 	    Math.round(Math.random() * dim[1])
-// 	  ];
-// 	};
+	function getAfterEditedImg(img, orientation, next) {
+		
+		var image = new Image();
+        image.onload = function () {
+        	var drawWidth;
+			var drawHeight;
+			var PixelWidth = this.naturalWidth;
+			var PixelHeight = this.naturalHeight;;
+        	var degree;
+        	var canvas = document.createElement('canvas');
+        	var context = canvas.getContext("2d");
+        	
+        	switch(orientation){
+            //iphone横屏拍摄，此时home键在左侧
+             case 3:
+                 degree = 180;
+                 drawWidth = -PixelWidth;
+                 drawHeight = -PixelHeight;
+                 break;
+             //iphone竖屏拍摄，此时home键在下方(正常拿手机的方向)
+             case 6:
+            	 canvas.width = PixelHeight;
+                 canvas.height = PixelWidth;
+                 degree = 90;
+                 drawWidth = PixelWidth;
+                 drawHeight = -PixelHeight;
+                 break;
+             //iphone竖屏拍摄，此时home键在上方
+             case 8:
+                 canvas.width = PixelHeight;
+                 canvas.height = PixelWidth; 
+                 degree = 270;
+                 drawWidth= -PixelWidth;
+                 drawHeight = PixelHeight;
+                 break;
+         	}
+         	//使用canvas旋转校正
+          	context.rotate(degree*Math.PI/180);
+        	context.drawImage(this,0,0,drawWidth,drawHeight);
+	        next(canvas.toDataURL("image/png"));
+        }
+        image.src = img;
+	}
 
 	// This function is bound to the onRelease handler...
 	// In certain circumstances (such as if you set minSize
@@ -267,7 +339,7 @@ function FileUpload() {
 		$("#file-3").fileinput({
 				uploadUrl:"uploadFile",
 		        showUpload : true,
-		        uploadClass: "btn btn-primary",//设置上传按钮样式
+// 		        uploadClass: "btn btn-primary",//设置上传按钮样式
 		        showRemove : false,
 		        uploadAsync: false,
 		        language : '<spring:message code="language"/>',
@@ -275,22 +347,24 @@ function FileUpload() {
 		        allowedFileExtensions : [ 'jpg', 'png', 'gif' ],
 		        maxFileSize : 10000,
 			    showCaption: true,
+			    autoOrientImage: true,
+			    showCancel: false,//取消按钮
 			    dropZoneEnabled : true,//`预览
+			    browseOnZoneClick: true,
 			    validateInitialCount : true,
 			    showCaption: false,//是否显示标题
 		        showPreview: false,//隐藏预览
-		        dropZoneEnabled: false,//是否显示拖拽区域
+		        dropZoneEnabled: true,//是否显示拖拽区域
 			    maxFileCount:1,
 			    enctype:'multipart/form-data',
 			    uploadExtraData: function () {
-                    return { "tailorInfo": tailorInfo }
+                    return { "tailorInfo": tailorInfo
+                    		, "orientation": orientationInfo}
                 }
 		});
 	}
 	return objectFile;
 }
-
-
 
 </script>
 </body>

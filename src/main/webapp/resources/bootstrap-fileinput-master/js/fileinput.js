@@ -506,6 +506,7 @@
         }
     };
     FileInput = function (element, options) {
+    	console.info('99999999999999999999');
         var self = this;
         self.$element = $(element);
         self.$parent = self.$element.parent();

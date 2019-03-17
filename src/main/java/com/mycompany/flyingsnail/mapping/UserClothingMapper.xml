@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.flyingsnail.dao.UserClothingMapper">
+  <resultMap id="BaseResultMap" type="com.mycompany.flyingsnail.entity.UserClothing">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <id column="clothing_id" jdbcType="INTEGER" property="clothingId" />
+    <id column="clothing_Component_id" jdbcType="INTEGER" property="clothingComponentId" />
+    <result column="image_name" jdbcType="VARCHAR" property="imageName" />
+    <result column="image_format" jdbcType="VARCHAR" property="imageFormat" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, clothing_id, clothing_Component_id, image_name, image_format, update_time, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_clothing
+    where user_id = #{userId,jdbcType=INTEGER}
+      and clothing_id = #{clothingId,jdbcType=INTEGER}
+      and clothing_Component_id = #{clothingComponentId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryUserID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_clothing
+    where user_id = #{id,jdbcType=INTEGER}
+    order by clothing_id, clothing_Component_id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from t_user_clothing
+    where user_id = #{userId,jdbcType=INTEGER}
+      and clothing_id = #{clothingId,jdbcType=INTEGER}
+      and clothing_Component_id = #{clothingComponentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mycompany.flyingsnail.entity.UserClothing">
+    insert into t_user_clothing (user_id, clothing_id, clothing_Component_id, 
+      image_name, image_format, update_time, 
+      create_time)
+    values (#{userId,jdbcType=INTEGER}, #{clothingId,jdbcType=INTEGER}, #{clothingComponentId,jdbcType=INTEGER}, 
+      #{imageName,jdbcType=VARCHAR}, #{imageFormat,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertOrUpdate" parameterType="com.mycompany.flyingsnail.entity.UserClothing">
+    insert into t_user_clothing (user_id, clothing_id, clothing_Component_id, 
+      image_name, image_format, update_time, 
+      create_time)
+    values (#{userId,jdbcType=INTEGER}, #{clothingId,jdbcType=INTEGER}, #{clothingComponentId,jdbcType=INTEGER}, 
+      #{imageName,jdbcType=VARCHAR}, #{imageFormat,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP})
+    ON DUPLICATE KEY UPDATE
+      image_name = VALUES(image_name),
+      image_format = VALUES(image_format),
+      update_time = VALUES(update_time)
+  </insert>
+  <insert id="insertSelective" parameterType="com.mycompany.flyingsnail.entity.UserClothing">
+    insert into t_user_clothing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="clothingId != null">
+        clothing_id,
+      </if>
+      <if test="clothingComponentId != null">
+        clothing_Component_id,
+      </if>
+      <if test="imageName != null">
+        image_name,
+      </if>
+      <if test="imageFormat != null">
+        image_format,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="clothingId != null">
+        #{clothingId,jdbcType=INTEGER},
+      </if>
+      <if test="clothingComponentId != null">
+        #{clothingComponentId,jdbcType=INTEGER},
+      </if>
+      <if test="imageName != null">
+        #{imageName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageFormat != null">
+        #{imageFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mycompany.flyingsnail.entity.UserClothing">
+    update t_user_clothing
+    <set>
+      <if test="imageName != null">
+        image_name = #{imageName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageFormat != null">
+        image_format = #{imageFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+      and clothing_id = #{clothingId,jdbcType=INTEGER}
+      and clothing_Component_id = #{clothingComponentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mycompany.flyingsnail.entity.UserClothing">
+    update t_user_clothing
+    set image_name = #{imageName,jdbcType=VARCHAR},
+      image_format = #{imageFormat,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
+      and clothing_id = #{clothingId,jdbcType=INTEGER}
+      and clothing_Component_id = #{clothingComponentId,jdbcType=INTEGER}
+  </update>
+</mapper>

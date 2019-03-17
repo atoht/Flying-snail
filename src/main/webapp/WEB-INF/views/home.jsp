@@ -119,7 +119,7 @@ box-shadow: 10px 10px 5px #888888;
 		<div class="row ">                                     
 		<c:forEach items="${userInfo.listImgPath }" var="vr">
 	        <div id="viewport" class="column nature"  >
-	            <img src="getInputStreamImg/${vr}" class="test rounded img-responsive center-block popover-options" 
+	            <img src="getInputStreamImg/${vr}/null" class="test rounded img-responsive center-block popover-options" 
 	            data-toggle="popover"  title="<h2>Title</h2>"
 	             style="width:100%"  >
 	            <br>

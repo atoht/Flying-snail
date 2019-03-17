@@ -4,7 +4,11 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
+/**
+ * 旋转图片
+ * @author atoht
+ *
+ */
 public class RotatingPicture {
 	
 	

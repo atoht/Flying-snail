@@ -1,153 +1,162 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<link type="text/css" rel="stylesheet" href="resources/tapmodo-Jcrop-1902fbc/css/jquery.Jcrop.min.css" />
+<link type="text/css" rel="stylesheet" href="resources/bootstrap-4.3.1/dist/css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="resources/bootstrap-fileinput-master/css/fileinput.min.css" />
-<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous"> -->
+<!-- <link type="text/css" rel="stylesheet" href="resources/tapmodo-Jcrop-1902fbc/demos/demo_files/main.css" /> -->
+<!-- <link rel="stylesheet" href="resources/tapmodo-Jcrop-1902fbc/demos/demo_files/demos.css" type="text/css" /> -->
+<link rel="stylesheet" href="resources/tapmodo-Jcrop-1902fbc/css/jquery.Jcrop.min.css" type="text/css" />
+<style type="text/css">
+/*   .optdual { position: relative; } */
+/*   .optdual .offset { position: absolute; left: 18em; } */
+/*   .optlist label { width: 16em; display: block; } */
+/*   #dl_links { margin-top: .5em; } */
+/* .column { */
+/*   float: left; */
+/*   width: 33.33%; */
+/* } */
+
+</style>
+<title>Insert title here</title>
 <%@include file="/WEB-INF/views/common/head.jsp" %>
+<style type="text/css">
+.main-box{
+/* 	width: 100vw;  */
+/* border: 1px solid transparent; */
+ border:none;
+    height: 0px; 
+/*     position: relative; */
+    padding-bottom: 150%;
+/*     background: blue; */
+/*     background: pink; */
+/* 	overflow: hidden; */
+/*  	background: url(resources/images/photo-1542834759-197152b49c42.jpg); */
+}
+.vice-main-box{
+/* 	width: 100vw;  */
+    height: 0px; 
+/*     position: relative; */
+    padding-bottom: 150%;
+}
+/* .card { */
+
+/*   margin-top: 100px; */
+/* } */
+</style>
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/navbar.jsp" %> 
 <div class="container-fluid">
-<!-- <div class="row "> -->
-<form enctype="multipart/form-data">
+<div class="row ">
+<div class="col-sm-3 col-md-3 col-lg-2">
     <hr>
-    <div class="form-group">
-<!--         <div class="file-loading"> -->
-        	<div class="col-md-6" style="width: 300px;">
-                        <img id="cut-img" class="thumbnail" style="width: 300px;height:300px;" src="resources/images/zimages (5).jpg"><br />
-                    </div>
-                    <div class="col-md-5">
-                        <input id="file-3" type="file" name="imgFile" data-ref="imgUrl" multiple class="file-loading" />
-                        </div>
-<!--             <input id="file-3" type="file" name="imgFile" data-ref="imgUrl" multiple> -->
-            <input type="hidden" id="imgUrl" name="imgUrl">
-<!--         </div> -->
-    </div>
-</form>
-<!-- </div> -->
 </div>
-			    
+<div class="col-sm-9 col-md-9 col-lg-10">
+    <hr>
+    <h1><spring:message code="image.title"/></h1>
+    <div class="row " id="viceCard">
+    <div class="col-sm-8 col-md-4 col-lg-4 addCardMian">
+    	<div class="card">
+		  <div class="main-box" id="boxID" data-toggle="modal" data-target="#myModalClothing" onclick="return false;"><spring:message code="image.add.photo"/></div>
+<!-- 		  <div class="main-box" id="boxID" data-toggle="modal" data-target="#myModalClothing" onclick="return false;"><img class="rounded "  src="resources/images/144eae6a-78fe-49f3-8504-c983bd2b7606.jpg" style="width:100%"></div> -->
+		</div>
+    </div>
+    <div class="col-sm-4 col-md-2 col-lg-2 addCardLeft" >
+    	<div class="card" >
+		  <div class="addBoxDiv vice-main-box" data="1" data-toggle="modal" data-target="#myModalClothing" onclick="return false;"><spring:message code="image.add.apparel"/></div>
+		</div>
+    </div>
+    <div class="col-sm-4 col-md-2 col-lg-2 addCardAmong" >
+    </div>
+    <div class="col-sm-4 col-md-2 col-lg-2 addCardRight" >
+    </div>
+    </div>
+    <!-- 模态框 -->
+    <%@include file="/WEB-INF/views/dialog/addClothingModalDialog.jsp" %> 
+<%-- 	<%@include file="/WEB-INF/views/dialog/addApparelModalDialog.jsp" %>  --%>
+</div>
+</div>
+</div>
 <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="resources/jquery-3.3.1.min.js"></script>
-<!--     <script>window.jQuery || document.write('<script src="resources/jquery.min.js"><\/script>')</script> -->
     <script src="resources/bootstrap-4.3.1/dist/js/bootstrap.min.js"></script>
-<!--     <script src="resources/template-web.js"></script> -->
     <script src="resources/tapmodo-Jcrop-1902fbc/js/jquery.Jcrop.min.js"></script>
     <script type="text/javascript" src="resources/bootstrap-fileinput-master/js/fileinput.min.js"></script>
 	<script type="text/javascript" src="resources/bootstrap-fileinput-master/js/locales/zh.js"></script>
-<!-- 	<script src="resources/bootstrap-fileinput-master/themes/fas/theme.min.js" type="text/javascript"></script> -->
-	
+	<script type="text/javascript" src="resources/JavaScript-Load-Image-master/js/load-image.all.min.js"></script>
+	<script type="text/javascript" src="resources/exif-js-master/exif.js"></script>	
+<!-- 	自定义 js-->
+	<script type="text/javascript" src="resources/custom-js/modal-dialog.js"></script>	
+		    
 <script type="text/javascript">
 
-</script>    
-<script type="text/javascript">
-var tailorInfo = "";
-$(function () { 
-	var jcorp = null;
-    var _this = this;
-	var fileUp = new FileUpload();
-	fileUp.Init();
-	var input = $('#file-3');
-	 //同步上传返回结果处理
-    $("#file-3").on("filepreupload", function(event, data, previewId, index) {
-
-//         $('#cut-img').attr('src', data.response.url);
-    });
-	$("#file-3").on('change', function (event, data, previewId, index) {
-        var img = $('#cut-img');
-        if (input[0].files && input[0].files[0]) {
-            var reader = new FileReader();
-            reader.readAsDataURL(input[0].files[0]);
-            reader.onload = function (e) {
-                img.removeAttr('src');
-                img.attr('src', e.target.result);
-                img.Jcrop({
-                    setSelect: [0, 0, 260, 290],
-                    handleSize: 10,
-                    aspectRatio: 1,//选框宽高比
-                    bgFade: false,
-                    bgColor: 'black',
-                    bgOpacity: 0.3,
-                    onSelect: updateCords
-                }, function () {
-                    jcorp = this;
-                });
-            };
-            console.log(Jcrop.tellSelect());
-            if (jcorp != undefined) {
-                jcorp.destroy();
-            }
-        }	
+var countApparel = 0;
+var language = '<spring:message code="language"/>';
+// var itemFile = $('#file-3');
+$(function () {
+	$( "#boxID" ).on( "click", function() {
+		if(file == null) {
+			submitPhoto.attr({ disabled: "disabled" });
+		}
+		errorMessage = null;
+		countApparel = 0;
+		img.attr('src','');
 	});
-	function updateCords(obj) {
-        tailorInfo = JSON.stringify({ "PictureWidth": $('.jcrop-holder').css('width'), "PictureHeight": $('.jcrop-holder').css('height'), "CoordinateX": obj.x, "CoordinateY": obj.y, "CoordinateWidth": obj.w, "CoordinateHeight": obj.h });
-        console.log(tailorInfo);
-        
-    }
-});
-
-function FileUpload() {
-	var objectFile = new Object();
-	objectFile.Init = function() {
-		$("#file-3").fileinput({
-				uploadUrl:"uploadFile",
-		        showUpload : true,
-		        uploadClass: "btn btn-primary",//设置上传按钮样式
-		        showRemove : false,
-		        uploadAsync: false,
-		        language : '<spring:message code="language"/>',
-		        allowedPreviewTypes : [ 'image' ],
-		        allowedFileExtensions : [ 'jpg', 'png', 'gif' ],
-		        maxFileSize : 10000,
-			    showCaption: true,
-			    dropZoneEnabled : true,//`预览
-			    validateInitialCount : true,
-			    showCaption: false,//是否显示标题
-		        showPreview: false,//隐藏预览
-		        dropZoneEnabled: false,//是否显示拖拽区域
-			    maxFileCount:1,
-			    enctype:'multipart/form-data',
-			    uploadExtraData: function () {
-                    return { "tailorInfo": tailorInfo }
-                }
-		});
-	}
-	return objectFile;
-}
-
-
-//异步上传返回结果处理
-    $('#file-3').on('fileerror', function(event, data, msg) {
-        console.log("fileerror");
-        console.log(data);
-    });
-   
-    //上传前
-    $('#file-3').on('filepreupload', function(event, data, previewId, index) {
-        console.log("filepreupload");
-    });
-    $('#file-3').on('filesuccessremove', function(event, id) {
-    if(!confirm('<spring:message code="deleteImg.mess"/>')){  
-                    return false;  
-    } 
-	var imgUrl = $('#' + id).attr('fileid');
-                console.log("--------------------");
-                console.log($('#' + id).attr('fileid'));
-       $.ajax({
-		    type: "POST",
-		    url: "deleteImg",
-		    data: {imgURL: imgUrl},
-		    dataType: "json",
-		    success: function(data){ }
-		});
-});
-</script>
+	$( "#viceCard" ).on( "click", '.addBoxDiv', function() {
+		if(file == null) {
+			submitPhoto.attr({ disabled: "disabled" });
+		}
+		errorMessage = null;
+		countApparel = parseInt($(this).attr('data'));
+		if(countApparel == 1) {
+			childrenpoing = "";
+			parentpoing = "mt-3";
+		}else if(countApparel == 2) {
+			childrenpoing = "mt-3";
+			parentpoing = "";
+		}else if(countApparel == 3) {
+			childrenpoing = "";
+			parentpoing = "mt-3";
+		}else if(countApparel == 4) {
+			childrenpoing = "mt-3";
+			parentpoing = "";
+		}else if(countApparel == 5) {
+			childrenpoing = "";
+			parentpoing = "mt-3";
+		}else if(countApparel == 6) {
+			childrenpoing = "mt-3";
+			parentpoing = "";
+		}
+		console.info(countApparel);
+// 		if(countApparel <= 1) {
+// 		    var parentdiv = $('<div class="card mt-3" ><div class= "addBoxDiv vice-main-box" data-toggle="modal" data-target="#myModalApparel" onclick="return false;"><spring:message code="image.add.apparel"/>'+countApparel+'</div></div>');
+// 			$(this).closest('.addCardLeft').append(parentdiv);
+// // 			img.removeAttr('src');
+// 			$(this).removeClass("addBoxDiv");
+// 		}else if(countApparel == 2) {
+// 			var childdiv = $('<div class="card" ><div class= "addBoxDiv vice-main-box" data-toggle="modal" data-target="#myModalApparel" onclick="return false;"><spring:message code="image.add.apparel"/>'+countApparel+'</div></div>');
+// 			$(this).closest('.addCardLeft').next().append(childdiv);
+// 			$(this).removeClass("addBoxDiv");
+// 			countApparel++;
+// 		}else if(countApparel <= 4) {
+// 			var childdiv = $('<div class="card mt-3" ><div class= "addBoxDiv vice-main-box" data-toggle="modal" data-target="#myModalApparel" onclick="return false;"><spring:message code="image.add.apparel"/>'+countApparel+'</div></div>');
+// 			$(this).closest('.addCardRight').append(childdiv);
+// 			$(this).removeClass("addBoxDiv");
+// 			countApparel++;
+// 		}
+	});
+	
+// 	$('#myModal').on('shown.bs.modal', function () {
+// 		  $('#myInput').trigger('focus')
+// 	});
+})
+</script>    
 </body>
 </html>

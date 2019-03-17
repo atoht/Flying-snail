@@ -19,6 +19,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import com.mycompany.flyingsnail.dto.UserInfo;
 import com.mycompany.flyingsnail.entity.Users;
 import com.mycompany.flyingsnail.service.TestService;
+import com.mycompany.flyingsnail.service.UserInfoService;
 import com.mycompany.flyingsnail.util.Constants;
 import com.mycompany.flyingsnail.util.ReadFile;
 
@@ -29,7 +30,7 @@ import com.mycompany.flyingsnail.util.ReadFile;
 public class HomeController {
 	
 	@Autowired
-	private TestService ts;
+	private UserInfoService userInfoService;
 	@Autowired
 	private UserInfo userInfo;
 	
@@ -41,22 +42,23 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpServletRequest request) {
 		request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
-		Users user = new Users();
-		user.setId(0);
-		user.setName("atoht");
-		userInfo.setUsers(user);
+		Users user = userInfoService.getUserInfo("atoht", "admin");
+		if(user != null) {
+			userInfo.setUsers(user);
 //		logger.info("Welcome home! The client locale is {}.", locale);
-		List<String> listImgPath = ReadFile.readImg(Constants.IMG_PATH.getAddress() + "\\" + user.getName() + "\\", userInfo);//读取图片文件
-		userInfo.setListImgPath(listImgPath);
-		Date date = new Date();
+			List<String> listImgPath = ReadFile.readImg(Constants.IMG_PATH.getAddress() + "\\" + user.getName() + "\\", userInfo);//读取图片文件
+			userInfo.setListImgPath(listImgPath);
+			Date date = new Date();
 //		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 //		
 //		String formattedDate = dateFormat.format(date);
 //		
-		model.addAttribute("userInfo", userInfo );
+			model.addAttribute("userInfo", userInfo );
+		}else {
+			userInfo.setSuccess("失败");
+			model.addAttribute("userInfo", userInfo );
+		}
 //		
-		System.out.println(ts.sayHi());
-		System.out.println(Constants.IMG_PATH);
 		// 图片存储路径
 //        String filePath = Constants.IMG_PATH + fileName;
 		return "home";

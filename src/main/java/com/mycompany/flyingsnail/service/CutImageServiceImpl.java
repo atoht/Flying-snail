@@ -11,6 +11,8 @@ import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,7 +36,7 @@ public class CutImageServiceImpl implements CutImageService {
 	 * @see com.mycompany.flyingsnail.service.CutImageServiceImpl#cutImage(org.springframework.web.multipart.MultipartFile, java.lang.String, com.mycompany.flyingsnail.dto.UserInfo)
 	 */
 	@Override
-	public boolean cutImage(MultipartFile imgFile, String tailorInfo,UserInfo userInfo, String orientation) {
+	public List<String> cutImage(MultipartFile imgFile, String tailorInfo,UserInfo userInfo, String orientation) {
 		int angel = 0;
 		String oldFileName = imgFile.getOriginalFilename(); // 获取上传文件的原名
 		// 上传图片
@@ -50,13 +52,17 @@ public class CutImageServiceImpl implements CutImageService {
                     System.out.println("文件夹创建失败");
                 }
             }
-        	if(userInfo == null) {
-        		return false;
+        	if(userInfo == null || userInfo.getUsers() == null) {
+        		return null;
         	}
         	String userName = userInfo.getUsers().getName();
         	String format = oldFileName.substring(oldFileName.lastIndexOf("."));//图片格式
         	// 新的图片名称
-            String newTempFileName =  userName + "\\temp" + userName + "\\" + UUID.randomUUID() + format;
+        	String randomUUID = UUID.randomUUID().toString() + userInfo.getUsers().getId();
+        	//临时文件夹
+            String newTempFileName =  userName + "\\temp" + userName + "\\" + randomUUID + format;
+            //用户文件夹
+            String newFileName =  userName + "\\" + randomUUID + format;
             // 新图片
             File newFile = new File(newTempFileName);
             //创建用户图片临时文件夹
@@ -81,8 +87,14 @@ public class CutImageServiceImpl implements CutImageService {
             	int fileWidth = 0;
             	int fileHeight = 0;
             	switch (orientation) {
+            	case "3": 
+            		angel = 180;
+            		break;
             	case "6": 
             		angel = 90;
+            		break;
+            	case "8": 
+            		angel = 270;
             		break;
             		
             	default:
@@ -125,12 +137,15 @@ public class CutImageServiceImpl implements CutImageService {
                     g.drawImage(img, null, null);
                     g.dispose();
                     // 新的图片名称
-                    String newFileName =  Constants.IMG_PATH.getAddress() + "\\" + newTempFileName ;
+                    String fileName =  Constants.IMG_PATH.getAddress() + "\\" + newFileName ;
                     //输出文件
-                    ImageIO.write(bufferedImage, format.replace(".",""), new File(newFileName));
-                    return true;
+                    ImageIO.write(bufferedImage, format.replace(".",""), new File(fileName));
+                    List<String> pathFormat = new ArrayList<String>();
+                    pathFormat.add(randomUUID);
+                    pathFormat.add(format.replace(".",""));
+                    return pathFormat;
                 } else {
-                    return true;
+                    return null;
                 }
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
@@ -140,6 +155,6 @@ public class CutImageServiceImpl implements CutImageService {
 				e.printStackTrace();
 			}
         }
-		return false;
+		return null;
 	}
 }
